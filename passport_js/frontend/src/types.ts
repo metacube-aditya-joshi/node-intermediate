@@ -3,7 +3,7 @@ export interface User {
   email: string;
   name: string;
   profilePicture: string;
-  socialProvider: 'google' | 'facebook' | 'twitter';
+  socialProvider: 'google' ;
   socialId: string;
   createdAt: string;
 }

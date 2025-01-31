@@ -1,9 +1,9 @@
 import express from 'express';
 import passport from 'passport';
 import { isAuthenticated } from '../middleware/auth';
-
+import dotenv from "dotenv"
 const router = express.Router();
-
+dotenv.config();
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
@@ -24,9 +24,12 @@ router.get('/user', isAuthenticated, (req, res) => {
 });
 
 // Logout
+const client=process.env.CLIENT_URL
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect(process.env.CLIENT_URL);
+  req.logout(()=>{
+    console.log("user logged out");
+  });
+  res.redirect(client||"");
 });
 
 export default router;

@@ -14,16 +14,16 @@ dotenv.config();
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI!)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+// mongoose.connect(process.env.MONGODB_URI!)
+//   .then(() => console.log('Connected to MongoDB'))
+//   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Middleware
-app.use(helmet());
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true,
 }));
+console.log("cors intitated");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,7 +37,6 @@ app.use(
       mongoUrl: process.env.MONGODB_URI,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },
   })
@@ -52,7 +51,7 @@ app.use('/auth', authRoutes);
 
 // Error handling
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
+  console.error(err.message);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
